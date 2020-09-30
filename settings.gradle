@@ -1,0 +1,4 @@
+rootProject.name = 'homework'
+include 'hw-01'
+include 'HW01-Gradle'
+
