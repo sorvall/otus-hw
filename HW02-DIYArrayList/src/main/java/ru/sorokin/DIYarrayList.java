@@ -35,7 +35,7 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        throw new UnsupportedOperationException();
+        return Arrays.copyOf(myArrayList, size);
     }
 
     @Override
@@ -45,7 +45,9 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public boolean add(T t) {
-        myArrayList[size++] = t;
+        Object[] temporaryArray = myArrayList; //fix
+        myArrayList = Arrays.copyOf(myArrayList, (myArrayList.length + 1)); //fix
+        myArrayList[size++] = t; //fix
         return true;
     }
 

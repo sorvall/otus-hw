@@ -6,7 +6,7 @@ import java.util.List;
 
 public class WH02 {
     public static void main(String[] args) {
-        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list1 = new DIYarrayList<>();
         for (int i = 1; i <= 50; i++) {
             list1.add(i);
         }
@@ -31,8 +31,8 @@ public class WH02 {
         dIYarrayList.addAll(list1);
         System.out.println(dIYarrayList);
         System.out.println();
-        System.out.println("-----after addALL at list50 with index");
-        dIYarrayList.addAll(10, list50);
+        System.out.println("-----after Collections.addAll(dIYarrayList, 0, 5,15) ");
+        Collections.addAll(dIYarrayList, 0, 5,15);
         System.out.println(dIYarrayList);
         System.out.println();
         System.out.println("----before copy");
