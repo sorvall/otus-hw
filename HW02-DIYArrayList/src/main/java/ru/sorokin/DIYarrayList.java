@@ -45,8 +45,7 @@ public class DIYarrayList<T> implements List<T> {
 
     @Override
     public boolean add(T t) {
-        Object[] temporaryArray = myArrayList; //fix
-        myArrayList = Arrays.copyOf(myArrayList, (myArrayList.length + 1)); //fix
+        gettBigger(1);
         myArrayList[size++] = t; //fix
         return true;
     }
@@ -68,9 +67,7 @@ public class DIYarrayList<T> implements List<T> {
         int numNew = temporaryArray.length;
         final int temporarySize;
         temporarySize = size;
-        if (numNew > (myArrayList.length - (temporarySize))) {
-            myArrayList = new Object[Math.max(DEFAULT_LENGHT, temporarySize + numNew)];
-        }
+        gettBigger(numNew);
         System.arraycopy(temporaryArray, size, myArrayList, temporarySize, numNew);
         size = temporarySize + numNew;
         return true;
@@ -82,9 +79,7 @@ public class DIYarrayList<T> implements List<T> {
         int numNew = temporaryArray.length;
         final int temporarySize;
         temporarySize = size;
-        if (numNew > (myArrayList.length - (temporarySize))) {
-            myArrayList = Arrays.copyOf(myArrayList, (myArrayList.length * 3) / 2 + 1 + numNew);
-        }
+        gettBigger(numNew);
         int numMoved = temporarySize - index;
         if (numMoved > 0) {
             System.arraycopy(myArrayList, index, myArrayList, index + numNew, numMoved);
@@ -223,6 +218,12 @@ public class DIYarrayList<T> implements List<T> {
 
     public void sort(Comparator<? super T> c) {
         Arrays.sort((T[]) myArrayList, 0, size, c);
+    }
+
+    private void gettBigger(int numNew) {
+        if (numNew > (myArrayList.length - (size))) {
+            myArrayList = Arrays.copyOf(myArrayList, (myArrayList.length * 3) / 2 + 1 + numNew);
+        }
     }
 
 
