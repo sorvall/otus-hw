@@ -1,4 +1,4 @@
-package ru.sorokin;
+package ru.sorokin.demoClassTest;
 
 import ru.sorokin.annotations.After;
 import ru.sorokin.annotations.Before;

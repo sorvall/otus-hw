@@ -4,11 +4,25 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 class StartTest {
-    public static int testFailed;
-    public static int testCompleted;
-    public static int allTest;
+    private int testFailed;
+    private int testCompleted;
+    private int allTest;
 
-    public static void StartBeforeOrAfterTest(Object object, Class clazz, List<Method> list) {
+    public int getTestFailed() {
+        return testFailed;
+    }
+
+
+    public int getTestCompleted() {
+        return testCompleted;
+    }
+
+    public int getAllTest() {
+        return allTest;
+    }
+
+
+    public void startBeforeOrAfterTest(Object object, Class clazz, List<Method> list) {
         try {
             for (Method i : list) {
                 Method method = clazz.getDeclaredMethod(i.getName());
@@ -27,7 +41,7 @@ class StartTest {
         }
     }
 
-    public static void StartCurrentTest(Object object, Class clazz, Method runMethod) {
+    public void startCurrentTest(Object object, Class clazz, Method runMethod) {
         try {
             Method method;
             method = clazz.getDeclaredMethod(runMethod.getName());

@@ -1,7 +1,6 @@
 package ru.sorokin.MyFramework;
 
 
-
 import ru.sorokin.annotations.After;
 import ru.sorokin.annotations.Before;
 import ru.sorokin.annotations.Test;
@@ -12,7 +11,7 @@ import java.util.List;
 
 
 public class MyFramework {
-    public static void start(String name) throws ClassNotFoundException {
+    public void start(String name) throws ClassNotFoundException {
         Class<?> clazz = Class.forName(name);
         System.out.println("Запускаю " + clazz.getSimpleName());
         Method[] methodsAll = clazz.getDeclaredMethods();
@@ -33,19 +32,19 @@ public class MyFramework {
         }
 
         System.out.println("----------------------");
+        StartTest st = new StartTest();
         for (Method i : listTest) {
             try {
-                Object object = clazz.newInstance();
-                StartTest.StartBeforeOrAfterTest(object, clazz, listBefore);
-                StartTest.StartCurrentTest(object, clazz, i);
-                StartTest.StartBeforeOrAfterTest(object, clazz, listAfter);
+                Object object = clazz.getDeclaredConstructor().newInstance();
+                st.startBeforeOrAfterTest(object, clazz, listBefore);
+                st.startCurrentTest(object, clazz, i);
+                st.startBeforeOrAfterTest(object, clazz, listAfter);
+                System.out.println("----------------------");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-        System.out.println("----------------------");
-        System.out.println("Всего было тестов " + StartTest.allTest + " успешно " + StartTest.testCompleted + " неуспешно " + StartTest.testFailed);
+        System.out.println("Всего было тестов " + st.getAllTest() + " успешно " + st.getTestCompleted() + " неуспешно " + st.getTestFailed());
 
 
     }
