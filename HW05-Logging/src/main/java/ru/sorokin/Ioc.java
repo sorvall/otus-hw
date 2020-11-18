@@ -5,17 +5,14 @@ import ru.sorokin.annotation.Log;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Ioc {
-
 
     private Ioc() {
     }
 
-    static MyClassInterface createMyClass() {
+    static MyClassInterface createMyClass() throws ClassNotFoundException {
         InvocationHandler handler = new DemoInvocationHandler(new MyClassImpl());
         return (MyClassInterface) Proxy.newProxyInstance(Ioc.class.getClassLoader(),
                 new Class<?>[]{MyClassInterface.class}, handler);
@@ -23,26 +20,36 @@ public class Ioc {
 
     static class DemoInvocationHandler implements InvocationHandler {
         private final MyClassInterface myClass;
+        Map<String, Method> mapAllMethod;
 
-        DemoInvocationHandler(MyClassInterface myClass) {
+        DemoInvocationHandler(MyClassInterface myClass) throws ClassNotFoundException {
             this.myClass = myClass;
+            mapAllMethod = Reflection(myClass);
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            Class<?> clazz = Class.forName(this.myClass.getClass().getName());
-            Method selectedMethod = clazz.getMethod(method.getName(), method.getParameterTypes());
             System.out.println("___________________");
-            printParametrs(selectedMethod, args);
+            printParametrs(mapAllMethod.get(method.getName()), args);
             return method.invoke(myClass, args);
         }
 
+        //filling MAP with methods through reflection
+        private Map<String, Method> Reflection(MyClassInterface myClass) throws ClassNotFoundException {
+            Class<?> clazz1 = Class.forName(myClass.getClass().getName());
+            Method[] methodsAll = clazz1.getDeclaredMethods();
+            Map<String, Method> mapAllMethod = new HashMap<>();
+            for (Method all : methodsAll) {
+                mapAllMethod.put(all.getName(), all);
+            }
+            return mapAllMethod;
+        }
     }
 
     //print parametrs for selected metod
     static private void printParametrs(Method selectedMethod, Object[] args) {
         if (selectedMethod.isAnnotationPresent(Log.class)) {
-            System.out.println("Executed method name is: " + selectedMethod.getName());
+            System.out.println("Name of the logged method is: " + selectedMethod.getName());
 
             List<Object> parameters = new ArrayList<>();
             Collections.addAll(parameters, selectedMethod.getParameterTypes());
@@ -57,4 +64,5 @@ public class Ioc {
         }
     }
 }
+
 
