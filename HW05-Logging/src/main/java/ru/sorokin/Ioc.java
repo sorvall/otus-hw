@@ -24,23 +24,28 @@ public class Ioc {
 
         DemoInvocationHandler(MyClassInterface myClass) throws ClassNotFoundException {
             this.myClass = myClass;
-            mapAllMethod = Reflection(myClass);
+            mapAllMethod = reflection(myClass);
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            Method saveMethodName = mapAllMethod.get(method.getName());
             System.out.println("___________________");
-            printParametrs(mapAllMethod.get(method.getName()), args);
+            if (saveMethodName != null) {
+                printParametrs(saveMethodName, args);
+            }
             return method.invoke(myClass, args);
         }
 
         //filling MAP with methods through reflection
-        private Map<String, Method> Reflection(MyClassInterface myClass) throws ClassNotFoundException {
+        private Map<String, Method> reflection(MyClassInterface myClass) throws ClassNotFoundException {
             Class<?> clazz1 = Class.forName(myClass.getClass().getName());
             Method[] methodsAll = clazz1.getDeclaredMethods();
             Map<String, Method> mapAllMethod = new HashMap<>();
             for (Method all : methodsAll) {
-                mapAllMethod.put(all.getName(), all);
+                if (all.isAnnotationPresent(Log.class)) {
+                    mapAllMethod.put(all.getName(), all);
+                }
             }
             return mapAllMethod;
         }
@@ -48,19 +53,17 @@ public class Ioc {
 
     //print parametrs for selected metod
     static private void printParametrs(Method selectedMethod, Object[] args) {
-        if (selectedMethod.isAnnotationPresent(Log.class)) {
-            System.out.println("Name of the logged method is: " + selectedMethod.getName());
+        System.out.println("Name of the logged method is: " + selectedMethod.getName());
 
-            List<Object> parameters = new ArrayList<>();
-            Collections.addAll(parameters, selectedMethod.getParameterTypes());
+        List<Object> parameters = new ArrayList<>();
+        Collections.addAll(parameters, selectedMethod.getParameterTypes());
 
-            if (args != null) {
-                for (int i = 0; i < args.length; i++) {
-                    System.out.println(parameters.get(i) + ": value is: " + args[i] + ", ");
-                }
-            } else {
-                System.out.println("Parameters are empty");
+        if (args != null) {
+            for (int i = 0; i < args.length; i++) {
+                System.out.println(parameters.get(i) + ": value is: " + args[i] + ", ");
             }
+        } else {
+            System.out.println("Parameters are empty");
         }
     }
 }
