@@ -3,4 +3,5 @@ include 'HW01-Gradle'
 include 'HW02-DIYArrayList'
 include 'HW03-Reflection'
 include 'HW05-Logging'
+include 'HW06-ATM'
 
