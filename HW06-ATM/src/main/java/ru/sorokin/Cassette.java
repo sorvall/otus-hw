@@ -1,12 +1,10 @@
 package ru.sorokin;
 
 public class Cassette {
-    int number;
-    Nominal nom;
-    int count;
+    private final Nominal nom;
+    private int count;
 
-    public Cassette(int number, Nominal nom, int count) {
-        this.number = number;
+    protected Cassette(int number, Nominal nom, int count) {
         this.nom = nom;
         this.count = count;
     }
@@ -29,7 +27,11 @@ public class Cassette {
     }
 
     public void removeFromBalance(int takeOffCount) {
-        this.count = this.count - takeOffCount;
+        if (this.count >= takeOffCount) {
+            this.count = this.count - takeOffCount;
+        } else {
+            System.out.println("Недостаточно средств");
+        }
     }
 
 
