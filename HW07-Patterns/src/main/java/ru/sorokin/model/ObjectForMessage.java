@@ -1,5 +1,6 @@
 package ru.sorokin.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectForMessage {
@@ -10,6 +11,7 @@ public class ObjectForMessage {
     }
 
     public void setData(List<String> data) {
-        this.data = data;
+        List <String> ls = new ArrayList<>(data);
+        this.data = ls;
     }
 }
