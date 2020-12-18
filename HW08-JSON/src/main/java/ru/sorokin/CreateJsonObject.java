@@ -5,7 +5,8 @@ import java.lang.reflect.Field;
 public class CreateJsonObject {
 
     public String stringObject(Object anyPeople) throws NoSuchFieldException, IllegalAccessException {
-        String myStringJson = "";
+        StringBuilder myStringJson = new StringBuilder();
+        JsonHandleManager myMap = new JsonHandleManager();
         Class<?> clazz2 = anyPeople.getClass();
         Field[] fieldsAll = clazz2.getDeclaredFields();
         Class<?> clazz = anyPeople.getClass();
@@ -14,12 +15,12 @@ public class CreateJsonObject {
             fields.setAccessible(true);
             Object f = fields.get(anyPeople);
             if (f != null) {
-                myStringJson = myStringJson + MyStringBuilder.jsBuilder(field.getName(), f);
-                myStringJson = myStringJson + ",";
+                myStringJson.append(myMap.getMe(field.getName(), f));
+                myStringJson.append(",");
             }
         }
-        myStringJson = myStringJson.substring(0, myStringJson.length() - 1);
-        myStringJson = "{" + myStringJson + "}";
-        return myStringJson;
+        myStringJson = new StringBuilder(myStringJson.substring(0, myStringJson.length() - 1));
+        myStringJson = new StringBuilder("{" + myStringJson + "}");
+        return myStringJson.toString();
     }
 }

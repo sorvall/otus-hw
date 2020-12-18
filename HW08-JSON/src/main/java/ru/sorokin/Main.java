@@ -35,8 +35,8 @@ public class Main {
         System.out.println(json);
 
         //объект для проверки
-/*        AnyPeople anyPeople3 = new AnyPeople(11, integers, "String", strings, 324d, doubles, false, booleans,
-                15, floats, '\u0066', chars, 2L, longs, (short) 4, shorts, (byte) 2, bytes, null, map, list, set);*/
+        AnyPeople anyPeople3 = new AnyPeople(11, integers, "String", strings, 324d, doubles, false, booleans,
+                15, floats, '\u0066', chars, 2L, longs, (short) 4, shorts, (byte) 2, bytes, null, map, list, set);
 
         CreateJsonObject myJsonObject = new CreateJsonObject();
         String myStringJsonObject = myJsonObject.stringObject(anyPeople);
