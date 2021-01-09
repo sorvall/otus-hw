@@ -42,4 +42,16 @@ allprojects {
             dependency("org.testcontainers:postgresql:${Versions.testcontainers}")
         }
     }
+
+    configurations.all {
+        resolutionStrategy {
+            failOnVersionConflict()
+        }
+        resolutionStrategy {
+            force("javax.servlet:servlet-api:2.4")
+            force("commons-logging:commons-logging:1.1.1")
+            force("commons-lang:commons-lang:2.5")
+            force("org.codehaus.jettison:jettison:1.1")
+        }
+    }
 }
