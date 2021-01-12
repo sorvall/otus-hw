@@ -32,13 +32,13 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     private void initClassFields(Class<T> entity) {
         Field[] fields = entity.getDeclaredFields();
         for (Field field : fields) {
-            if (field.isAnnotationPresent(Id.class)) {
-                allField.add(field);
-                idField = field;
-                continue;
-            }
             allField.add(field);
-            allFieldsWithoutId.add(field);
+            if (field.isAnnotationPresent(Id.class)) {
+                idField = field;
+            }
+            else {
+                allFieldsWithoutId.add(field);
+            }
         }
         if (idField == null) {
             throw new NotFoundIdClassFieldException("Нет поля с аннотацией ID");
