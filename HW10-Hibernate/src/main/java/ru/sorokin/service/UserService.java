@@ -9,6 +9,4 @@ public interface UserService {
     long saveUser(User user);
 
     Optional<User> getUser(long id);
-
-    //List<User> findAll();
 }

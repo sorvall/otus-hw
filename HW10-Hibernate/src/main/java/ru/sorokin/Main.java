@@ -23,7 +23,6 @@ public class Main {
 
 
     public static void main(String[] args) {
-        long id;
         Configuration configuration = new Configuration().configure(HIBERNATE_CFG_FILE);
         logger.info("Start");
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory(configuration, User.class, PhoneDataSet.class, AddressDataSet.class);
@@ -35,16 +34,16 @@ public class Main {
         User firstUser = new User();
         firstUser.setAddress(new AddressDataSet("Gagarina"));
         firstUser.setPhoneDataSet(phoneDataSets);
-        id =  userService.saveUser(firstUser);
+        long id =  userService.saveUser(firstUser);
 
         Optional<User> mayBeCreatedUser = userService.getUser(id);
-        mayBeCreatedUser.ifPresentOrElse((user1) -> outputUser("Created firstUser", user1),
+        mayBeCreatedUser.ifPresentOrElse(user -> outputUser("Created firstUser", user),
                 () -> logger.info("User not found"));
 
         Set<PhoneDataSet> alternativePhoneDataSets = Set.of(new PhoneDataSet("+7999555"), new PhoneDataSet("+788555"));
         id = userService.saveUser(new User(1,firstUser.getAddress(),alternativePhoneDataSets));
         Optional<User> mayBeUpdatedUser = userService.getUser(id);
-        mayBeUpdatedUser.ifPresentOrElse((user1) -> outputUser("Updated firstUser", user1),
+        mayBeUpdatedUser.ifPresentOrElse(user -> outputUser("Updated firstUser", user),
                 () -> logger.info("User not found"));
 
     }

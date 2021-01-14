@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface UserDao {
     Optional<User> findById(long id);
-    //List<User> findAll();
-
     long insert(User user);
 
     void update(User user);
