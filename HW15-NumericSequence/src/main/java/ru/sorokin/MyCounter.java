@@ -1,8 +1,8 @@
 package ru.sorokin;
 
 public class MyCounter {
-    int i = 0;
-    boolean goDecr = false;
+    private int i = 0;
+    private boolean goDecr = false;
 
     public void run() throws InterruptedException {
         synchronized (this) {
