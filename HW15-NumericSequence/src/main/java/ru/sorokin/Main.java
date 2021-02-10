@@ -5,14 +5,14 @@ public class Main {
         MyCounter counter = new MyCounter();
         new Thread(() -> {
             try {
-                counter.run();
+                counter.run("Second");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
         new Thread(() -> {
             try {
-                counter.run();
+                counter.run("First");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
