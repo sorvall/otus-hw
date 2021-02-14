@@ -3,12 +3,12 @@ package ru.sorokin;
 public class MyCounter {
     private int i = 0;
     private boolean goDecr = false;
-    private String verificationNumberThread = "Second";
+    private String nameThread = "Second";
 
     public void run(String numberThread) throws InterruptedException {
         synchronized (this) {
             while ((i > 1 && goDecr) || (i <= 10 && !goDecr)) {
-                while (numberThread.equals(verificationNumberThread)) {
+                while (numberThread.equals(nameThread)) {
                     System.out.println("Поток " + Thread.currentThread().getName() + " вне очереди! Блок");
                     this.wait();
                 }
@@ -20,7 +20,7 @@ public class MyCounter {
                     i--;
                 }
                 System.out.println(Thread.currentThread().getName() + " " + i);
-                verificationNumberThread = numberThread;
+                nameThread = numberThread;
                 notifyAll();
                 wait();
             }
