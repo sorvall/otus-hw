@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Пользователи</title>
+    <script>
+        function getAllUser() {
+            //const userIdTextBox = document.getElementById('userIdTextBox');
+            const userDataContainer = document.getElementById('userDataContainer');
+            //const id = userIdTextBox.value;
+            //fetch('api/user?id=' + id)
+            fetch('api/user/')
+                .then(response => response.json())
+                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
+        }
+
+        let user = {
+            name: '',
+            login: '',
+            password: ''
+        }
+        function createUser() {
+            const userNameTextBox = document.getElementById('userNameTextBox').value;
+            const userLoginTextBox = document.getElementById('userLoginTextBox').value;
+            const userPasswordTextBox = document.getElementById('userPasswordTextBox').value;
+            user.name = userNameTextBox;
+            user.login = userLoginTextBox;
+            user.password = userPasswordTextBox;
+            fetch('api/user/', {
+                method: 'POST',
+                body: JSON.stringify(user),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(user => userDataContainer.innerHTML = JSON.stringify(user));
+        }
+    </script>
+</head>
+
+<body>
+<h4>Получить всех пользователей</h4>
+<button onclick="getAllUser()">Получить всех пользователей</button>
+<pre id="userDataContainer"></pre>
+
+<h4>Добавить пользователя</h4>
+
+
+<input type="text" id="userNameTextBox" placeholder="Введите имя пользователя">
+<input type="text" id="userLoginTextBox" placeholder="Введите логин пользователя">
+<input type="text" id="userPasswordTextBox" placeholder="Введите пароль пользователя">
+<button onclick="createUser()">Создать пользователя</button>
+
+</body>
+</html>
